@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 
 import type {
@@ -27,9 +27,7 @@ export default function Products() {
       <ul>
         {data.products.map(product => (
           <li key={product.id}>
-            <Link to={`/products/${product.id}`}>
-              {product.name}
-            </Link>
+            <Link to={`/products/${product.id}`}>{product.name}</Link>
           </li>
         ))}
       </ul>

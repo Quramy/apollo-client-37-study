@@ -84,13 +84,13 @@ export default function ProductDetail() {
         }
       });
     },
-    optimisticResponse: (input) => ({
+    optimisticResponse: input => ({
       addReview: {
         __typename: "Review",
         id: btoa(`${Date.now() % 1234567}`),
-        commentBody: input.commentBody,
-      },
-    }),
+        commentBody: input.commentBody
+      }
+    })
   });
 
   if (loading) return <div>loading...</div>;
@@ -108,8 +108,8 @@ export default function ProductDetail() {
           mutate({
             variables: {
               pid: productId,
-              ...comment,
-            },
+              ...comment
+            }
           })
         }
       />
