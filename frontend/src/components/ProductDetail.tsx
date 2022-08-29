@@ -102,7 +102,7 @@ export default function ProductDetail() {
       <h1>{product.name}</h1>
       <p>{product.description}</p>
       <ProductReview
-        product={product}
+        from={`Product:${product.id}`}
         submiting={submiting}
         onSubmit={comment =>
           mutate({

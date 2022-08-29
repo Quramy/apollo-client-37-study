@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { gql } from "@apollo/client";
+import { gql, useFragment } from "@apollo/client";
 import type { ReviewBodyFragment } from "./__generated__/review-body-fragment";
 import type { ProductReviewFragment } from "./__generated__/product-review-fragment";
 
@@ -21,23 +21,29 @@ export const productReviewFragment = gql`
 `;
 
 type Props = {
-  product: ProductReviewFragment;
+  from: string;
   submiting: boolean;
   onSubmit: (input: Omit<ReviewBodyFragment, "id">) => void;
 };
 
-export default function ProductReview({ product, submiting, onSubmit }: Props) {
+export default function ProductReview({ from, submiting, onSubmit }: Props) {
   const [comment, setComment] = useState("");
-  if (!product) return null;
+  const { data, complete } = useFragment<ProductReviewFragment, unknown>({
+    from,
+    fragmentName: "ProductReviewFragment",
+    fragment: productReviewFragment
+  });
+  if (!complete) return <div>loading...</div>;
+  if (!data) return null;
   return (
     <>
       <section>
         <h2>レビュー</h2>
-        {product.reviews.length === 0 ? (
+        {data.reviews.length === 0 ? (
           <p>レビューはありません</p>
         ) : (
           <ul>
-            {product.reviews.map(({ id, commentBody }) => (
+            {data.reviews.map(({ id, commentBody }) => (
               <li key={id}>
                 <p>{commentBody}</p>
               </li>
